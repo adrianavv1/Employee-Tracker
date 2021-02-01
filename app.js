@@ -2,21 +2,21 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const dotenv = require('dotenv').config();
-const cTable = require('console.table');
-const { start } = require('repl');
+require('console.table');
+// const { start } = require('repl');
 
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: 'u3Sp6M28xr!',
-    database: 'db_name'
+    database: 'company_DB'
 });
 
-connection.connect(function(err) {
-    if (err) throw err;
-    start();
-});
+// connection.connect(function(err) {
+//     if (err) throw err;
+//     start();
+// });
 
 function start() {
     inquirer
@@ -45,7 +45,61 @@ function start() {
         })
         .then(function (answer) {
             switch (answer.action) {
-                case ""
+                case "View ALL Employees.":
+                    viewAllEmployees();
+                    break;
+                
+                case "View ALL Employees by Department":
+                    break;
+                case 'View ALL Employees by Manager.':
+                    viewAllEmployeesByManager();
+                    break;
+                case 'View ALL Departments' :
+                    viewAllDepartment();
+
+                    break;
+                default:
+                    break;
             }
-        }
+        })
 }
+
+
+function viewAllEmployees () {
+    var query = "SELECT * FROM employee;";
+    connection.query(query, function(err, res) {
+      if (err) throw err;
+         console.table(res);
+         start();
+    })
+};
+
+function viewAllDepartment () {
+    var query = "SELECT * FROM department;";
+    connection.query(query, function(err, res) {
+      if (err) throw err;
+         console.table(res);
+         start();
+    })
+};
+
+function viewAllEmployeesByManager () {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "managerId",
+            message: "Please enter the manager's id:"
+        }
+    ]).then(answer => {
+        var query = "SELECT * FROM employee WHERE manager_id = " + answer.managerId + ";";
+        connection.query(query, function(err, res) {
+        if (err) throw err;
+            console.table(res);
+            start();
+        })
+    })
+}
+
+
+
+start();
