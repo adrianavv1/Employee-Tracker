@@ -1,9 +1,8 @@
 //Dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-const dotenv = require('dotenv').config();
 require('console.table');
-// const { start } = require('repl');
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -48,18 +47,58 @@ function start() {
                 case "View ALL Employees.":
                     viewAllEmployees();
                     break;
-                
+
                 case "View ALL Employees by Department":
+                    viewAllEmployeesDept();
                     break;
-                case 'View ALL Employees by Manager.':
+
+                case "View ALL Employees by Manager.":
                     viewAllEmployeesByManager();
                     break;
-                case 'View ALL Departments' :
-                    viewAllDepartment();
 
+                case "View ALL Departments":
+                    viewAllDepartment();
                     break;
-                default:
+                
+                case "Add Department":
+                    addDepartment();
                     break;
+
+                case "Remove Department":
+                    removeDepartment();
+                    break;
+
+                case "Add Employee":
+                    addEmployee();    
+                    break;
+
+                case "Update Employee Role":
+                    updateEmployee();
+                    break;
+                    
+                case "Update Employee Manager":
+                    updateManager();
+                    break;
+                    
+                case "Remove Employee":
+                    removeEmployee();
+                    break;
+                    
+                case "View ALL Roles":
+                    viewRoles();
+                    break;
+
+                case "Add Role":
+                    addRoles();
+                    break;
+                    
+                case "Remove Role":
+                    removeRole();
+                    break;
+
+                case "EXIT":
+                connection.end();
+                break;
             }
         })
 }
