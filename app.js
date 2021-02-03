@@ -12,10 +12,10 @@ const connection = mysql.createConnection({
     database: 'company_DB'
 });
 
-// connection.connect(function(err) {
-//     if (err) throw err;
-//     start();
-// });
+ connection.connect(function(err) {
+    if (err) throw err;
+     start();
+ });
 
 function start() {
     inquirer
@@ -113,6 +113,15 @@ function viewAllEmployees () {
     })
 };
 
+function viewRoles () {
+    var query = "SELECT * FROM role";
+    connection.query(query, function(err, res) {
+      if (err) throw err;
+         console.table(res);
+         start();
+    })
+};
+
 function viewAllDepartment () {
     var query = "SELECT * FROM department;";
     connection.query(query, function(err, res) {
@@ -136,8 +145,30 @@ function viewAllEmployeesByManager () {
             console.table(res);
             start();
         })
-    })
+    });
+
+
 }
+
+function viewAllEmployeesDept() {
+    inquirer.prompt([
+        {
+            type:"list",
+            name: "department",
+            message: "Which department would you like to look into?"
+        }
+    ])
+    .then(answer => {
+        var query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, e2.first_name AS manager FROM employee LEFT JOIN employee as e2 ON e2.id = employee.manager_id JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id WHERE department.name = ? ORDER BY employee.id" + answer.department + ";"
+        connection.query(query, function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+        })
+    });
+}
+
+
 
 
 
