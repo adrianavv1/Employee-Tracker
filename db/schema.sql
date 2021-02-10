@@ -1,9 +1,9 @@
 /* Schema for SQL database/table. We haven't discussed this type of file yet */
-DROP DATABASE IF EXISTS company_DB;
+DROP DATABASE IF EXISTS company_db;
 
 /* Create database */
-CREATE DATABASE company_DB;
-USE company_DB;
+CREATE DATABASE company_db;
+USE company_db;
 
 /* Create new table with a primary key that auto-increments, and a text field */
 CREATE TABLE department (
@@ -18,7 +18,7 @@ CREATE TABLE role (
   salary DECIMAL NOT NULL,
   department_id INT NOT NULL,
   PRIMARY KEY (id)
-  -- FOREIGN KEY (department_id) REFERENCE department(id) ON DELETE SET NULL
+  
 );
 
 CREATE TABLE employee (
@@ -28,7 +28,6 @@ CREATE TABLE employee (
   role_id INT NOT NULL,
   manager_id INT NOT NULL,
   PRIMARY KEY (id)
-  -- FOREIGN KEY (role_id) REFERENCE role(id),
-  -- FOREIGN KEY (manager_id) REFERENCE employee(id) ON DELETE SET NULL 
+ 
 );
 
